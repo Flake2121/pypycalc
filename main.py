@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import os 
-from math import floor
+import math
 import platform
 from processing_py import *
 
@@ -21,25 +21,31 @@ else:
 
 
 #Make window for visualiseation
-app = App(600,400)
+app = App(600,800)
 app.background(0,0,0)
 app.strokeWeight(1)
 app.stroke(255)
 app.fill(255)
+app.textAlign(CENTER)
 
 #Draws triangles with markers based of nubers a,b
 def draw_triangle(shapeOffset, a, i,shapeScale):
-    app.triangle(shapeOffset[0]*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, (i + shapeOffset[1])*shapeScale)
-
-    
-
-
-    if shapeOffset[0] < app.width:
-        shapeOffset[0] += int(a) + 25
-    else:
-        shapeOffset[1] += i + 25
-        shapeOffset[0] = 10
     app.redraw()
+    app.triangle(shapeOffset[0]*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, (i + shapeOffset[1])*shapeScale)
+    app.textAlign(LEFT)
+    app.text("a: "+a,shapeOffset[0]*shapeScale,(shapeOffset[1]-1)*shapeScale)
+    app.text("b: "+str(i),(shapeOffset[0]+int(a)+1)*shapeScale,(shapeOffset[1]*shapeScale)+((i/2)*shapeScale))
+    app.textAlign(RIGHT)
+    app.text("c: "+str((int(a)**2+i**2)**0.5),shapeOffset[0]*shapeScale+(int(a)/2)*shapeScale,(shapeOffset[1]+i)*shapeScale-(i/3)*shapeScale)
+
+
+    app.redraw()
+    shapeOffset[0] += int(a)+25
+    if (shapeOffset[0]*shapeScale) > app.width:
+           shapeOffset[1] += i + 3
+           shapeOffset[0] = 1
+           print(shapeOffset[0]*shapeScale,shapeOffset[1]*shapeScale)
+
 
 
 
@@ -48,8 +54,8 @@ def draw_triangle(shapeOffset, a, i,shapeScale):
 a = input("Input A:")
 brF = input("Brute Force Mode (True/False)")
 EnReOu="\nPythagorien Triple List\n"
-shapeOffset=[10,10]
-shapeScale=5
+shapeOffset=[1,3]
+shapeScale=10
 # Check if brute force mode is not activated
 if (brF == "False" or brF == "f"):
         # Get the range of numbers to check for Pythagorean triples
@@ -65,17 +71,17 @@ if (brF == "False" or brF == "f"):
                 # Check if user wants to see non-Pythagorean triples
                 if (sB == "True" or sB == "t"):
                         # Check if the calculated hypotenuse is an integer
-                        if (c == floor(c)):
+                        if (c == math.floor(c)):
                                 # Print and record the Pythagorean triple
-                                print(GreenC+"is pypytri (YES) a:"+str(a),"b:"+str(i),"c:"+str(floor(c))+ResetC)
-                                EnReOu += GreenC+"(YES) a:"+str(a) + " " + "b:"+str(i)+" "+"c:"+str(floor(c)) + "\n"+ResetC
+                                print(GreenC+"is pypytri (YES) a:"+str(a),"b:"+str(i),"c:"+str(math.floor(c))+ResetC)
+                                EnReOu += GreenC+"(YES) a:"+str(a) + " " + "b:"+str(i)+" "+"c:"+str(math.floor(c)) + "\n"+ResetC
                                 draw_triangle(shapeOffset,a,i,shapeScale)
                         else:
                                 # Print the non-Pythagorean result
                                 print("is pypytri (NO) a:"+str(a),"b:"+str(i),"c:"+str(c))
-                elif (sB == "False" or sB == "f" and c==floor(c)):
+                elif (sB == "False" or sB == "f" and c==math.floor(c)):
                                 # Print only Pythagorean triples
-                                print(GreenC+"(YES) a:"+str(a),"b:"+str(i),"c:"+str(floor(c))+ResetC)
+                                print(GreenC+"(YES) a:"+str(a),"b:"+str(i),"c:"+str(math.floor(c))+ResetC)
                                 draw_triangle(shapeOffset,a,i,shapeScale)
 
 else:
@@ -86,15 +92,22 @@ else:
                 # Calculate the hypotenuse
                 c = (int(a)**2 + i**2)**0.5
                 # Check if the hypotenuse is an integer and not equal to 'a'
-                if(c == floor(c) & int(floor(c))!=int(a)):
+                if(c == math.floor(c) & int(math.floor(c))!=int(a)):
                         # Print the Pythagorean triple
-                        print("a:"+str(a),"b:"+str(i),"c:"+str(floor(c)))
+                        print("a:"+str(a),"b:"+str(i),"c:"+str(math.floor(c)))
                         draw_triangle(shapeOffset,a,i,shapeScale)
                         # Prompt to exit
                         input("Press Enter to exit:")
                         # Clear the screen and exit
-                        system("clear")
-                        system("clr")
+                        
+
+                        if platform.system() == "Windows":
+                            # Code to run on Windows
+                            os.system("cls")
+                        else:
+                            # Code to run on anything else
+                            os.system("clear")
+
                         exit()
 
 # Print the recorded Pythagorean triples
