@@ -21,30 +21,32 @@ else:
 
 
 #Make window for visualiseation
-app = App(600,800)
-app.background(0,0,0)
+app = App(int(input("Window X: ")),int(input("Window Y: ")))
+app.background(50)
 app.strokeWeight(1)
-app.stroke(255)
+app.noStroke()
 app.fill(255)
 app.textAlign(CENTER)
+
+
 
 #Draws triangles with markers based of nubers a,b
 def draw_triangle(shapeOffset, a, i,shapeScale):
     app.redraw()
     app.triangle(shapeOffset[0]*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, (i + shapeOffset[1])*shapeScale)
     app.textAlign(LEFT)
+    app.fill(0)
     app.text("a: "+a,shapeOffset[0]*shapeScale,(shapeOffset[1]-1)*shapeScale)
-    app.text("b: "+str(i),(shapeOffset[0]+int(a)+1)*shapeScale,(shapeOffset[1]*shapeScale)+((i/2)*shapeScale))
+    app.text("b: "+str(i),((shapeOffset[0]+int(a)+1)*shapeScale)+4,(shapeOffset[1]*shapeScale)+((i/2)*shapeScale))
     app.textAlign(RIGHT)
-    app.text("c: "+str((int(a)**2+i**2)**0.5),shapeOffset[0]*shapeScale+(int(a)/2)*shapeScale,(shapeOffset[1]+i)*shapeScale-(i/3)*shapeScale)
-
+    app.text("c: "+str(int((int(a)**2+i**2)**0.5)),shapeOffset[0]*shapeScale+(int(a)/2)*shapeScale,(shapeOffset[1]+i)*shapeScale-(i/3)*shapeScale)
+    app.fill(255)
 
     app.redraw()
-    shapeOffset[0] += int(a)+25
-    if (shapeOffset[0]*shapeScale) > app.width:
+    shapeOffset[0] += (int(a)*1.5)
+    if (shapeOffset[0]*shapeScale+(len(a))*30) > app.width:
            shapeOffset[1] += i + 3
-           shapeOffset[0] = 1
-           print(shapeOffset[0]*shapeScale,shapeOffset[1]*shapeScale)
+           shapeOffset[0] = 5*shapeScale
 
 
 
@@ -54,8 +56,10 @@ def draw_triangle(shapeOffset, a, i,shapeScale):
 a = input("Input A:")
 brF = input("Brute Force Mode (True/False)")
 EnReOu="\nPythagorien Triple List\n"
-shapeOffset=[1,3]
-shapeScale=10
+shapeScale=float(input("Scale: "))
+shapeOffset=[3,10/shapeScale]
+
+
 # Check if brute force mode is not activated
 if (brF == "False" or brF == "f"):
         # Get the range of numbers to check for Pythagorean triples
