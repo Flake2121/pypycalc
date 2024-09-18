@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/bin/python
 import os 
 import math
 import platform
@@ -30,13 +30,14 @@ app.textAlign(CENTER)
 
 
 
+
 #Draws triangles with markers based of nubers a,b
 def draw_triangle(shapeOffset, a, i,shapeScale):
     app.redraw()
     app.triangle(shapeOffset[0]*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, shapeOffset[1]*shapeScale, (int(a) + shapeOffset[0])*shapeScale, (i + shapeOffset[1])*shapeScale)
     app.textAlign(LEFT)
     app.fill(0)
-    app.text("a: "+a,shapeOffset[0]*shapeScale,(shapeOffset[1]-1)*shapeScale)
+    app.text("a: "+a,(shapeOffset[0]*shapeScale)-15,(shapeOffset[1]-1)*shapeScale)
     app.text("b: "+str(i),((shapeOffset[0]+int(a)+1)*shapeScale)+4,(shapeOffset[1]*shapeScale)+((i/2)*shapeScale))
     app.textAlign(RIGHT)
     app.text("c: "+str(int((int(a)**2+i**2)**0.5)),shapeOffset[0]*shapeScale+(int(a)/2)*shapeScale,(shapeOffset[1]+i)*shapeScale-(i/3)*shapeScale)
@@ -47,17 +48,21 @@ def draw_triangle(shapeOffset, a, i,shapeScale):
     if (shapeOffset[0]*shapeScale+(len(a))*30) > app.width:
            shapeOffset[1] += i + 3
            shapeOffset[0] = 5*shapeScale
-
+app.textSize(13)
 
 
 
 
 # Prompt user for input
+app.textSize(30)
 a = input("Input A:")
+app.text("a: "+str(a),app.width - (len(str(a))*30),app.height-50)
+app.redraw()
 brF = input("Brute Force Mode (True/False)")
 EnReOu="\nPythagorien Triple List\n"
 shapeScale=float(input("Scale: "))
 shapeOffset=[3,10/shapeScale]
+app.textSize(13)
 
 
 # Check if brute force mode is not activated
